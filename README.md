@@ -122,9 +122,9 @@ streamlit run app.py
 
 ## 👨‍💻 Author
 
-- **Name:** *(Your Name)*
+- **Name:** *Yug Patel*
 - **Course:** Artificial Intelligence Lab — 6th Semester
-- **Institution:** *(Your College Name)*
+- **Institution:** *Pandit Deendayal Energy University*
 
 ---
 
