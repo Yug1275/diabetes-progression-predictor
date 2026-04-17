@@ -1,0 +1,9 @@
+,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+Decision Tree,88.31,80.0,88.89,84.21,92.66
+Random Forest,87.66,79.66,87.04,83.19,94.35
+Random Forest Tuned,87.66,79.66,87.04,83.19,94.35
+XGBoost Tuned,87.01,79.31,85.19,82.14,94.48
+XGBoost,87.01,80.36,83.33,81.82,94.7
+SVM,83.77,73.77,83.33,78.26,91.02
+Logistic Regression,77.27,63.38,83.33,72.0,84.33
+KNN,77.27,64.18,79.63,71.07,85.45
