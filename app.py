@@ -234,7 +234,7 @@ with st.sidebar:
 # MAIN PAGE
 # -------------------------------------------------------
 st.title("🩺 Early Diabetes Progression Predictor")
-st.markdown("##### AI-powered diabetes risk assessment using Machine Learning Made by Yug & Meet")
+st.markdown("##### AI-powered diabetes risk assessment using Machine Learning Made by Yug & Meet.")
 st.markdown("---")
 
 # -------------------------------------------------------
