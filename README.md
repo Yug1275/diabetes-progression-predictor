@@ -167,7 +167,7 @@ diabetes-progression-predictor/
 
 ### 1. Clone the repository
 ```powershell
-git clone https://github.com/YOUR-USERNAME/diabetes-progression-predictor.git
+git clone https://github.com/Yug1275/diabetes-progression-predictor.git
 cd diabetes-progression-predictor
 ```
 
@@ -217,9 +217,9 @@ python predict.py
 
 ## 👨‍💻 Author
 
-- **Name:** *(Your Name)*
+- **Name:** *Yug Patel and Meet Prajapati*
 - **Course:** Artificial Intelligence Lab — 6th Semester
-- **Institution:** *(Your College Name)*
+- **Institution:** *Pandit Deendayal Energy University*
 
 ---
 
