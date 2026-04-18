@@ -94,7 +94,7 @@ st.markdown("""
     .section-header {
         font-size: 20px;
         font-weight: bold;
-        color: #2c3e50;
+        color: var(--text-color);
         margin-bottom: 10px;
         padding-bottom: 5px;
         border-bottom: 2px solid #e74c3c;
@@ -197,7 +197,6 @@ def plot_risk_gauge(risk_pct):
 # SIDEBAR
 # -------------------------------------------------------
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/000000/stethoscope.png", width=80)
     st.title("🩺 About This App")
     st.markdown("""
     This tool uses **Machine Learning** to predict the
@@ -245,47 +244,77 @@ st.markdown('<p class="section-header">📋 Patient Medical Information</p>',
             unsafe_allow_html=True)
 st.markdown("Fill in the patient's medical values below:")
 
+# Define sample patient data
+sample_data = {
+    'high': {
+        'pregnancies': 6, 'glucose': 148, 'blood_pressure': 72,
+        'skin_thickness': 35, 'insulin': 125, 'bmi': 33.6,
+        'dpf': 0.627, 'age': 50
+    },
+    'low': {
+        'pregnancies': 1, 'glucose': 89, 'blood_pressure': 66,
+        'skin_thickness': 23, 'insulin': 94, 'bmi': 28.1,
+        'dpf': 0.167, 'age': 21
+    },
+    'default': {
+        'pregnancies': 1, 'glucose': 100, 'blood_pressure': 70,
+        'skin_thickness': 20, 'insulin': 80, 'bmi': 25.0,
+        'dpf': 0.5, 'age': 30
+    }
+}
+
+# Get current values based on session state
+if 'current_values' not in st.session_state:
+    st.session_state.current_values = sample_data['default'].copy()
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("**🔢 Basic Information**")
     pregnancies = st.number_input(
-        "Pregnancies", min_value=0, max_value=20, value=1, step=1,
+        "Pregnancies", min_value=0, max_value=20,
+        value=st.session_state.current_values['pregnancies'], step=1,
         help="Number of times pregnant"
     )
     age = st.number_input(
-        "Age (years)", min_value=10, max_value=100, value=30, step=1,
+        "Age (years)", min_value=10, max_value=100,
+        value=st.session_state.current_values['age'], step=1,
         help="Patient age in years"
     )
     bmi = st.number_input(
-        "BMI (kg/m²)", min_value=10.0, max_value=70.0, value=25.0, step=0.1,
+        "BMI (kg/m²)", min_value=10.0, max_value=70.0,
+        value=st.session_state.current_values['bmi'], step=0.1,
         help="Body Mass Index"
     )
 
 with col2:
     st.markdown("**🩸 Blood Measurements**")
     glucose = st.number_input(
-        "Glucose (mg/dL)", min_value=50, max_value=250, value=100, step=1,
+        "Glucose (mg/dL)", min_value=50, max_value=250,
+        value=st.session_state.current_values['glucose'], step=1,
         help="Plasma glucose concentration after 2hr oral glucose test"
     )
     insulin = st.number_input(
-        "Insulin (mu U/ml)", min_value=10, max_value=600, value=80, step=1,
+        "Insulin (mu U/ml)", min_value=10, max_value=600,
+        value=st.session_state.current_values['insulin'], step=1,
         help="2-Hour serum insulin level"
     )
     blood_pressure = st.number_input(
-        "Blood Pressure (mm Hg)", min_value=30, max_value=140, value=70, step=1,
+        "Blood Pressure (mm Hg)", min_value=30, max_value=140,
+        value=st.session_state.current_values['blood_pressure'], step=1,
         help="Diastolic blood pressure"
     )
 
 with col3:
     st.markdown("**📏 Other Measurements**")
     skin_thickness = st.number_input(
-        "Skin Thickness (mm)", min_value=5, max_value=80, value=20, step=1,
+        "Skin Thickness (mm)", min_value=5, max_value=80,
+        value=st.session_state.current_values['skin_thickness'], step=1,
         help="Triceps skin fold thickness"
     )
     dpf = st.number_input(
         "Diabetes Pedigree Function", min_value=0.05, max_value=2.5,
-        value=0.5, step=0.01,
+        value=st.session_state.current_values['dpf'], step=0.01,
         help="Genetic likelihood score based on family history"
     )
 
@@ -299,7 +328,7 @@ with col3:
     st.markdown(f"""
         <div style='background:{bmi_color}22; border-left:4px solid {bmi_color};
                     padding:10px; border-radius:8px; margin-top:28px;'>
-            <b style='color:#2c3e50;'>BMI Category:</b><br>
+            <b style='color:#2c3e50;color: var(--text-color);'>BMI Category:</b><br>
             <span style='color:{bmi_color}; font-size:18px; font-weight:bold;'>
                 {bmi_label}
             </span>
@@ -314,23 +343,15 @@ st.markdown("---")
 st.markdown("**💡 Try a Sample Patient:**")
 samp_col1, samp_col2, samp_col3 = st.columns(3)
 
-if 'sample' not in st.session_state:
-    st.session_state.sample = None
-
 if samp_col1.button("🔴 High Risk Patient"):
-    st.session_state.sample = 'high'
+    st.session_state.current_values = sample_data['high']
     st.rerun()
 if samp_col2.button("🟢 Low Risk Patient"):
-    st.session_state.sample = 'low'
+    st.session_state.current_values = sample_data['low']
     st.rerun()
 if samp_col3.button("🔄 Reset Values"):
-    st.session_state.sample = None
+    st.session_state.current_values = sample_data['default']
     st.rerun()
-
-if st.session_state.sample == 'high':
-    st.info("💡 Set values → Pregnancies:6, Glucose:148, BP:72, Skin:35, Insulin:125, BMI:33.6, DPF:0.627, Age:50 — then click Predict")
-elif st.session_state.sample == 'low':
-    st.info("💡 Set values → Pregnancies:1, Glucose:89, BP:66, Skin:23, Insulin:94, BMI:28.1, DPF:0.167, Age:21 — then click Predict")
 
 st.markdown("---")
 
