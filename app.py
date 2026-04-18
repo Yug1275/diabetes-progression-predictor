@@ -75,6 +75,21 @@ st.markdown("""
     .result-low p {
         color: #2c3e50 !important;
     }
+    
+    .result-moderate {
+        background-color: #fff4e6;
+        border-left: 6px solid #f39c12;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 10px 0;
+        color: #2c3e50 !important;
+    }
+    .result-moderate h2 {
+        color: #e67e22 !important;
+    }
+    .result-moderate p {
+        color: #2c3e50 !important;
+    }
 
     .section-header {
         font-size: 20px;
@@ -341,7 +356,8 @@ if predict_btn:
     res_col1, res_col2 = st.columns([1.2, 1])
 
     with res_col1:
-        if prediction == 1:
+        if risk_pct > 75:
+        # 🔴 HIGH RISK
             st.markdown(f"""
                 <div class="result-high">
                     <h2 style="color:#c0392b;">🔴 HIGH RISK OF DIABETES</h2>
@@ -349,8 +365,7 @@ if predict_btn:
                         The model detected <b>high risk indicators</b>
                         for diabetes progression.<br><br>
                         <b>Confidence:</b> {risk_pct:.1f}%<br>
-                        <b>Risk Level:</b>
-                        {'🔴 High' if risk_pct > 75 else '🟡 Moderate'}
+                        <b>Risk Level:</b> 🔴 High
                     </p>
                     <hr style="border-color:#e74c3c33;">
                     <p style="color:#2c3e50;">
@@ -360,7 +375,29 @@ if predict_btn:
                     </p>
                 </div>
             """, unsafe_allow_html=True)
+
+        elif risk_pct > 40:
+            # 🟡 MODERATE RISK
+            st.markdown(f"""
+                <div class="result-moderate">
+                    <h2>🟡 MODERATE RISK OF DIABETES</h2>
+                    <p style="font-size:16px; color:#2c3e50;">
+                        The model detected <b>moderate risk indicators</b>
+                        for diabetes progression.<br><br>
+                        <b>Confidence:</b> {risk_pct:.1f}%<br>
+                        <b>Risk Level:</b> 🟡 Moderate
+                    </p>
+                    <hr style="border-color:#f39c1233;">
+                    <p style="color:#2c3e50;">
+                        ⚕️ <b>Recommendation:</b> Monitor your health regularly,
+                        improve lifestyle habits, and consider consulting a doctor
+                        if risk factors persist.
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+
         else:
+            # 🟢 LOW RISK
             st.markdown(f"""
                 <div class="result-low">
                     <h2 style="color:#1a7a4a;">🟢 LOW RISK OF DIABETES</h2>
